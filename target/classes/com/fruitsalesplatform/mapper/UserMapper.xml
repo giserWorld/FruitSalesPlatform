@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<!-- mapper配置文件映射到mapper接口类 -->
+<mapper namespace="test2">
+	
+	<!-- resultMapy映射 -->
+	<resultMap type="com.fruitsalesplatform.entity.User" id="userRM">
+		<id property="userid" column="userid" /><!-- 主键映射 -->
+	</resultMap> 
+	
+	<!-- 根据id查询数据 -->
+    <select id="get" 
+    		parameterType="string" 
+    		resultMap="userRM">  
+    	select * from tb_user WHERE userid=#{userid};
+    </select> 
+</mapper> 
