@@ -16,7 +16,6 @@ public class TestServiceImpl implements TestService{
 	@Autowired //(自动装配)获取Dao层通过“@Repository注解”对外暴露的bean对象
 	private TestDao testDao;
 	
-	
 	//@Override
 	public List<User> findUserByName(User user) {
 		return testDao.findUserByName(user);

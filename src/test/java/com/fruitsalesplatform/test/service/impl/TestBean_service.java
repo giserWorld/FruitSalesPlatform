@@ -1,6 +1,7 @@
 package com.fruitsalesplatform.test.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import com.fruitsalesplatform.test.entity.User;
 
@@ -9,8 +10,6 @@ import com.fruitsalesplatform.test.entity.User;
 public class TestBean_service {
 	
 	public void testAuto(){
-		System.out.println("******************************");
-		System.out.println("实现类自动注入@service!");
-		System.out.println("******************************");
+		System.out.println("@Service层的暴露bean[TestBean_service]!");
 	}
 }

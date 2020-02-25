@@ -65,6 +65,7 @@
 			</tx:attributes>
 		</tx:advice>
 		
+		<!-- 配置aop -->
 		<aop:config>
 			<aop:pointcut expression="execution(* com.fruitsalesplatform.service.*.*(..))" id="txPointcut"/>
 			<aop:advisor advice-ref="txAdivce" pointcut-ref="txPointcut"/>

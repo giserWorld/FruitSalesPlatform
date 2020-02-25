@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<!-- mapper映射工作空间 -->
+<mapper namespace="com.fruitsalesplatform.mapper.RetailerMapper">
+	<!-- Sql片段,便于重复使用 -->
+	<sql id="query_retailer_where">
+		<!-- 动态SQL语句 -->
+		<if test="name!=null">and name like #{name}</if>
+		<if test="telephone!=null">and telephone like #{telephone}</if>
+		<if test="address!=null">and address like #{address}</if>
+		<if test="status!=null">and status like #{status}</if>
+		<if test="createtime!=null">
+			<!-- 解决sql出现"<"、">"运算符 -->
+			<![CDATA[
+				and createtime=#{createtime}
+			]]>
+		</if>
+		<if test="startTime!=null">
+			<![CDATA[
+				and createtime>=#{startTime}
+			]]>
+			
+		</if>
+		<if test="endTime!=null">
+			<![CDATA[
+				and createtime<=#{endTime}
+			]]>
+		</if>
+	</sql>
+	
+	<!-- resultMap:输出映射 -->
+	<resultMap id="retailerRM" type="com.fruitsalesplatform.entity.Retailer">
+		<id property="retailerid" column="retailerid" jdbcType="VARCHAR"/><!-- 主键映射 -->
+	</resultMap>
+		
+	<!-- 根据map查询数据,多条件查询 -->
+    <select id="find" 
+    		parameterType="map" 
+    		resultMap="retailerRM">  
+    	select * from retailer WHERE 1=1
+    	<!-- 引入sql片段 -->
+    	<include refid="query_retailer_where"></include>
+    	<!-- 分页数据条件 -->
+    	<if test="pageSize!=null and offset!=null">
+    		limit #{pageSize,javaType=int,jdbcType=BIGINT} offset #{offset,javaType=int,jdbcType=BIGINT}
+    	</if>
+    </select> 
+	
+	<!-- 统计数量查询 -->
+    <select id="count" 
+    		parameterType="map" 
+    		resultType="int">  
+    	select count(*) from retailer where 1=1
+    	<!-- 引入sql片段 -->
+    	<include refid="query_retailer_where"></include>
+    </select> 
+	
+	
+	<!-- 根据id查询数据 -->
+    <select id="get" 
+    		parameterType="string" 
+    		resultMap="retailerRM">  
+    	select * from retailer WHERE retailerid=#{id,jdbcType=VARCHAR};
+    </select> 
+	
+	<!-- 插入一条数据 -->
+	<insert id="insert" parameterType="com.fruitsalesplatform.entity.Retailer">
+		insert into retailer 
+		(retailerid,name,telephone,address,status,createtime) 
+		values
+		(
+		 #{retailerid,jdbcType=VARCHAR},
+		 #{name,jdbcType=VARCHAR},
+		 #{telephone,jdbcType=VARCHAR},
+		 #{address,jdbcType=VARCHAR},
+		 #{status,jdbcType=VARCHAR},
+		 #{createtime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<!-- 数据更新 -->
+	<update id="update" parameterType="com.fruitsalesplatform.entity.Retailer">
+		update retailer
+		<set>
+			<if test="name!=null">name=#{name,jdbcType=VARCHAR},</if>
+			<if test="telephone!=null">telephone=#{telephone,jdbcType=VARCHAR},</if>
+			<if test="address!=null">address=#{address,jdbcType=VARCHAR},</if>
+			<if test="status!=null">status=#{status,jdbcType=VARCHAR},</if>
+			<if test="createtime!=null">createtime=#{createtime,jdbcType=TIMESTAMP}</if>
+		</set>
+		where retailerid=#{retailerid,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 根据id删除单条数据 -->
+	<delete id="deleteById" parameterType="string">
+		delete from retailer where retailerid=#{retailerid}
+	</delete>
+	
+	<!-- 删除多条数据,一维字符串你数组的形式 -->
+	<delete id="delete" parameterType="string">
+		delete from retailer where retailerid in
+		<!-- 动态sql，open=""：指定开头字符串，close=""：指定结尾字符串，结果:("item1","item2")-->
+		<foreach collection="array" item="retailerid" open="(" separator="," close=")" >
+			#{retailerid}
+		</foreach>
+	</delete>
+	
+</mapper> 

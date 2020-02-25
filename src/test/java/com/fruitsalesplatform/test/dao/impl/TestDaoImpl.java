@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,27 +25,18 @@ import com.fruitsalesplatform.test.entity.User;
 
 //mapper接口的实现类,Dao层通过“@Repository注解”对外暴露的bean对象
 @Repository
-public class TestDaoImpl implements TestDao{
+public class TestDaoImpl extends SqlSessionDaoSupport implements TestDao{
 
-	@Autowired//获取spring的xml配置文件中的bean标签
-	private SqlSessionFactory sessionFactory;
-	
-	private SqlSession sqlSession=null;//mybatis核心类
-	
-	//获取sqlSession
-	public SqlSession getSqlSession(){
-		//如果sqlSession为空，则需要重新创建
-		if(sqlSession==null){
-			sqlSession=sessionFactory.openSession();
-		}
-		return sqlSession;
+	@Autowired//自动将xml中“sessionFactory”的bean注入方法中
+	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+		super.setSqlSessionFactory(sqlSessionFactory);
 	}
 	
 	@Override
 	public List<User> findUserByName(User user) {
-		SqlSession sqlSession2=getSqlSession();
+		SqlSession sqlSession=getSqlSession();//SqlSessionTemplate
 		String name=user.getName();
-		List<User> uList=sqlSession2.selectList("test.findUserByName","%"+name+"%");
+		List<User> uList=sqlSession.selectList("test.findUserByName","%"+name+"%");
 		return uList;
 	}
 	

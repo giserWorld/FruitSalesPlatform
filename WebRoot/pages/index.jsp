@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- 引入jstl标签库 -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+	<base href="<%=basePath%>"><!-- 项目根目录 -->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>jsp模板</title>
 	<!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
@@ -11,5 +17,8 @@
 </head>
 <body>
 	
+	<script>
+		
+	</script>
 </body>
 </html>

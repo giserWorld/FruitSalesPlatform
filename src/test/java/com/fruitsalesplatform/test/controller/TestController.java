@@ -27,7 +27,7 @@ public class TestController {
 	private TestService testServiceImpl;//自动装配接口类型
 	
 	@RequestMapping("/user/findUser.action")
-	public String findUser(User user,Model model){
+	public String findUser(Model model,User user){
 		//创建use实例
 		List <User> userList=testServiceImpl.findUserByName(user);
 		model.addAttribute("userList", userList);

@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <!-- 根据id查询数据 -->
     <select id="findUserByName" 
     		parameterType="string"
-    		resultType="com.fruitsalesplatform.test.entity.User">  
+    		resultType="com.fruitsalesplatform.entity.User">  
     	select * from tb_user WHERE name LIKE '%${name}%';
     </select> 
 </mapper> 

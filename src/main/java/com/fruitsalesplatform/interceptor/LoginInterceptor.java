@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fruitsalesplatform.entity.User;
+
 //接口请求拦截器
 public class LoginInterceptor implements HandlerInterceptor {
 	
@@ -14,15 +16,16 @@ public class LoginInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, Object handler) throws Exception {
 		//获取请求的地址
 		String uri=request.getRequestURI();
-		System.out.println("===========请求requestUrl===========");
-		System.out.println(uri);
-		
 		//请求url为接口
 		if(uri.contains(".action")){
+			
+			System.out.println("===========拦截器start:请求requestUrl===========");
+			System.out.println(uri);
+			System.out.println("====================拦截器end===================");
 			//获取http会话
 			HttpSession httpSession=request.getSession();
 			//获取httpSession中的信息
-			String userInfo=(String)httpSession.getAttribute("user");
+		    User userInfo=(User)httpSession.getAttribute("user");
 			if(userInfo!=null){//用户已经登录过
 				return true;
 			}
