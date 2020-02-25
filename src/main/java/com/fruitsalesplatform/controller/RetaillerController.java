@@ -1,9 +1,12 @@
 package com.fruitsalesplatform.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,10 +32,28 @@ public class RetaillerController extends BaseController{
 	RetailerService retailerServiceImpl;
 	
 	
-	//修改零售商信息
+	//添加新数据
+	@RequestMapping("retailer/addData.action")
+	public String addRetailer(Model model,Retailer retailer,
+			HttpServletRequest request,HttpServletResponse response){
+		
+		String uuid=UUID.randomUUID().toString();//uid
+		retailer.setRetailerid(uuid);
+		//获取时间
+		SimpleDateFormat date_format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentTime=date_format.format(new Date());
+		retailer.setCreatetime(currentTime);
+		retailer.setStatus("1");
+		
+		retailerServiceImpl.insert(retailer);
+		Retailer queryRetailer=new Retailer();
+		queryRetailer.setStatus(null);
+		return list(model, queryRetailer, null, null);
+	}
+	
+	//删除数据接口
 	@RequestMapping("retailer/delete.action")
-	@ResponseBody
-	public Object deleteRetailer(Model model,Retailer retailer,
+	public String deleteRetailer(Model model,Retailer retailer,
 			HttpServletRequest request,HttpServletResponse response){
 		
 		//1.通过request获取参数,通过参数名获取参数值
@@ -42,14 +63,19 @@ public class RetaillerController extends BaseController{
 		String pageSize=request.getParameter("pageSize");
 		//2.获取所有的参数名字
 		Enumeration paramNameSet=request.getParameterNames();
-		//3.获取所有的参数名字
-	    Enumeration paramNameSet=request.getParameterNames();
+		//3.获取所有参数对应的Map，其中key为参数名，value为参数值
+		Map<String,String[]> paramMap=request.getParameterMap();
 		
-		Map<String,Object> map=new HashMap<>();
-		map.put("mgs","获取更新成功！");
-		map.put("code","0");
-		map.put("data","");
-		return map;
+		retailerServiceImpl.deleteById(id);//删除数据
+		
+		Retailer queryRetailer=new Retailer();
+		
+		queryRetailer.setStartPage(Integer.valueOf(startPage));
+		queryRetailer.setCurrentPage(Integer.valueOf(currentPage));
+		queryRetailer.setPageSize(Integer.valueOf(pageSize));
+		queryRetailer.setStatus(null);
+		
+		return list(model, queryRetailer, null, null);
 	}
 	
 	

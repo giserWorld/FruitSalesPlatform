@@ -81,6 +81,9 @@
 		</div>
 	</div>
 	<div id="showDataList">
+		<div>
+			<button type="button" class="btn btn-success btn-sm" id="addDate_btn">添加</button>
+		</div>
 		<!-- 通过c:if创建table表单 -->
 		<c:if test="${list!=null}">
 			<table border="1" style="margin-top:10px;width:700px;text-align: center;">
@@ -218,7 +221,58 @@
 		</div>
 	</div>
 	<!-- end -->
+	
+	<!-- modal-添加新数据 -->
+	<div class="modal fade" id="myModal_add" tabindex="-1" role="dialog" aria-hidden="true" >
+		<div class="modal-dialog" style="width: 300px;margin-top: 25%;">
+			<div class="modal-content">
+				<div class="modal-header" style="background: #00699c;color: white;">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: white;">
+						&times;
+					</button>
+					<h4 class="modal-title">添加数据:</h4>
+				</div>
+				<div class="modal-body" style="text-align: center;vertical-align: middle;">
+					<form id="addForm" action="retailer/addData.action" method="post" style="display: inline-block;">
+						<table id="table_addData">
+							<tbody>
+								<tr>
+									<td class="td_name">姓名:</td>
+									<td class="td_value">
+										<input type="text" name="name"/>
+									</td>
+								</tr>
+								<tr>
+									<td class="td_name">手机:</td>
+									<td class="td_value">
+										<input type="text" name="telephone"/>
+									</td>
+								</tr>
+								<tr>
+									<td class="td_name">地址:</td>
+									<td class="td_value">
+										<input type="text" name="address"/>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<button class="btn btn-warning btn-sm">添加</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end -->
 	<script>
+	
+	//添加新数据
+	$("#addDate_btn").click(function(){
+		$("#myModal_add").modal("show");
+	});
 	
 	//确认删除
 	$("#modal_sc_ok").click(function(){

@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select * from retailer WHERE retailerid=#{id,jdbcType=VARCHAR};
     </select> 
 	
-	<!-- 插入一条数据 -->
+	<!-- 插入一条数据,使用to_timestamp()时间转换函数-->
 	<insert id="insert" parameterType="com.fruitsalesplatform.entity.Retailer">
 		insert into retailer 
 		(retailerid,name,telephone,address,status,createtime) 
@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 #{telephone,jdbcType=VARCHAR},
 		 #{address,jdbcType=VARCHAR},
 		 #{status,jdbcType=VARCHAR},
-		 #{createtime,jdbcType=TIMESTAMP}
+		 to_timestamp(#{createtime},'YYYY-MM-DD HH24:MI:SS')
 		)
 	</insert>
 	
