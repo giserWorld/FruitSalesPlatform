@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+
+<!-- mapper映射工作空间 -->
+<mapper namespace="com.fruitsalesplatform.mapper.CommoditiesMapper">
+	<!-- Sql片段,便于重复使用 -->
+	<sql id="query_commodities_where">
+		<!-- 动态SQL语句 -->
+		<if test="name!=null">and name like #{name}</if>
+		<if test="locality!=null">and locality like #{locality}</if>
+		<if test="startPrice!=null">
+			<![CDATA[
+				and startPrice>=#{startPrice}
+			]]>
+		</if>
+		<if test="endPrice!=null">
+			<![CDATA[
+				and endPrice<=#{endPrice}
+			]]>
+		</if>
+		<if test="createtime!=null">
+			<!-- 解决sql出现"<"、">"运算符 -->
+			 to_timestamp(#{createtime},'YYYY-MM-DD HH24:MI:SS')
+			<![CDATA[
+				and createtime=to_timestamp(#{createtime},'YYYY-MM-DD HH24:MI:SS')
+			]]>
+		</if>
+		<if test="startTime!=null">
+			<![CDATA[
+				and createtime>=to_timestamp(#{startTime},'YYYY-MM-DD HH24:MI:SS')
+			]]>
+			
+		</if>
+		<if test="endTime!=null">
+			<![CDATA[
+				and createtime<=to_timestamp(#{endTime},'YYYY-MM-DD HH24:MI:SS')
+			]]>
+		</if>
+	</sql>
+	
+	<!-- resultMap:输出映射 -->
+	<resultMap id="commoditiesRM" type="com.fruitsalesplatform.entity.Commodities">
+		<id property="fruitid" column="fruitid" jdbcType="VARCHAR"/><!-- 主键映射 -->
+	</resultMap>
+		
+	<!-- 根据map查询数据,多条件查询 -->
+    <select id="find" 
+    		parameterType="map" 
+    		resultMap="commoditiesRM">  
+    	select * from commodities WHERE 1=1
+    	<!-- 引入sql片段 -->
+    	<include refid="query_retailer_where"></include>
+    	<!-- 分页数据条件 -->
+    	<if test="pageSize!=null and offset!=null">
+    		limit #{pageSize,javaType=int,jdbcType=BIGINT} offset #{offset,javaType=int,jdbcType=BIGINT}
+    	</if>
+    </select> 
+	
+	<!-- 统计数量查询 -->
+    <select id="count" 
+    		parameterType="map" 
+    		resultType="int">  
+    	select count(*) from commodities where 1=1
+    	<!-- 引入sql片段 -->
+    	<include refid="query_retailer_where"></include>
+    </select> 
+	
+	
+	<!-- 根据id查询数据 -->
+    <select id="get" 
+    		parameterType="string" 
+    		resultMap="commoditiesRM">  
+    	select * from commodities WHERE fruitid=#{id,jdbcType=VARCHAR};
+    </select> 
+	
+	<!-- 插入一条数据,使用to_timestamp()时间转换函数-->
+	<insert id="insert" parameterType="com.fruitsalesplatform.entity.Commodities">
+		insert into commodities 
+		(fruitid,name,price,locality,createtime) 
+		values
+		(
+		 #{fruitid,jdbcType=VARCHAR},
+		 #{name,jdbcType=VARCHAR},
+		 #{price,jdbcType=NUMERIC},
+		 #{locality,jdbcType=VARCHAR},
+		 to_timestamp(#{createtime},'YYYY-MM-DD HH24:MI:SS')
+		)
+	</insert>
+	
+	<!-- 数据更新,update -->
+	<update id="update" parameterType="com.fruitsalesplatform.entity.Commodities">
+		update commodities
+		<set>
+			<if test="name!=null">name=#{name,jdbcType=NUMERIC},</if>
+			<if test="price!=null">price=#{price,jdbcType=VARCHAR},</if>
+			<if test="locality!=null">locality=#{locality,jdbcType=VARCHAR},</if>
+		</set>
+		where fruitid=#{fruitid,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 根据id删除单条数据 -->
+	<delete id="deleteById" parameterType="string">
+		delete from commodities where fruitid=#{id}
+	</delete>
+	
+	<!-- 删除多条数据,一维字符串你数组的形式 -->
+	<delete id="delete" parameterType="string">
+		delete from commodities where fruitid in
+		<!-- 动态sql，open=""：指定开头字符串，close=""：指定结尾字符串，结果:("item1","item2")-->
+		<foreach collection="array" item="fruitid" open="(" separator="," close=")" >
+			#{fruitid}
+		</foreach>
+	</delete>
+	
+</mapper> 

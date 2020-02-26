@@ -196,7 +196,7 @@
 	
 	<!-- 删除数据弹框 -->
 	<div class="modal fade" id="myModal_delete" tabindex="-1" role="dialog" aria-hidden="true" >
-		<div class="modal-dialog" style="width: 300px;margin-top: 25%;">
+		<div class="modal-dialog" style="width: 300px;margin-top: 10%;">
 			<div class="modal-content">
 				<div class="modal-header" style="background: #00699c;color: white;">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: white;">
@@ -224,7 +224,7 @@
 	
 	<!-- modal-添加新数据 -->
 	<div class="modal fade" id="myModal_add" tabindex="-1" role="dialog" aria-hidden="true" >
-		<div class="modal-dialog" style="width: 300px;margin-top: 25%;">
+		<div class="modal-dialog" style="width: 300px;margin-top: 10%;">
 			<div class="modal-content">
 				<div class="modal-header" style="background: #00699c;color: white;">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: white;">

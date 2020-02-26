@@ -6,8 +6,8 @@
            水果网络销售平台
    </h1>
    <div style="margin-left: 10px;margin-top: 22px;">
-	     <a href="./retailer/list.action">货物管理</a>|
-	     <a href="#">零售商管理</a>|
+	     <a href="./retailer/list.action">零售商管理</a>|
+	     <a href="./commodities/list.action">货物管理</a>|
 	     <a href="#">购销合同</a>|
 	     <a>用户设置</a>
    </div>
