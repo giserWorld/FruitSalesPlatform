@@ -1,0 +1,40 @@
+@CHARSET "utf-8";
+
+#query_div{
+	border:0px solid red;
+    padding-top: 5px;
+    border-bottom: 1px solid #bda0a0;
+}
+#query_table td{
+	border:0px solid blue;
+}
+#query_table td input{
+    height: 22px;
+    margin: 3px 0px;
+}
+#query_table td select{
+    height: 22px;
+}
+#showDataList{
+	border:0px solid red;
+    margin: 10px 0px;
+}
+.page_fy{
+	border:0px solid green;
+	margin-top: 10px;
+}
+#xg_info{
+   display: inline-block;
+}
+#xg_info td{
+	vertical-align: middle;
+}
+#xg_info .td_value input{
+	height: 28px;
+    margin: 2px 0px;
+}
+
+#table_addData td input{
+	margin: 5px 0px;
+}
+

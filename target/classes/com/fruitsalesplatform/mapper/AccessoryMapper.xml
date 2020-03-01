@@ -4,12 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 
 <!-- mapper映射工作空间 -->
-<mapper namespace="com.fruitsalesplatform.mapper.CommoditiesMapper">
+<mapper namespace="com.fruitsalesplatform.mapper.AccessoryMapper.xml">
 	<!-- Sql片段,便于重复使用 -->
 	<sql id="query_commodities_where">
 		<!-- 动态SQL语句 -->
 		<if test="name!=null">and name like #{name}</if>
-		<if test="locality!=null">and locality like #{locality}</if>
 		<if test="startPrice!=null">
 			<![CDATA[
 				and price>=#{startPrice,jdbcType=NUMERIC}
@@ -41,17 +40,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</sql>
 	
 	<!-- resultMap:输出映射 -->
-	<resultMap id="commoditiesRM" type="com.fruitsalesplatform.entity.Commodities">
-		<id property="fruitid" column="fruitid" jdbcType="VARCHAR"/><!-- 主键映射 -->
+	<resultMap id="accessoryRM" type="com.fruitsalesplatform.entity.Accessory">
+		<id property="accessoryid" column="accessoryid" jdbcType="VARCHAR"/><!-- 主键映射 -->
 	</resultMap>
 		
 	<!-- 根据map查询数据,多条件查询 -->
     <select id="find" 
     		parameterType="map" 
-    		resultMap="commoditiesRM">  
-    	select * from commodities WHERE 1=1
+    		resultMap="accessoryRM">  
+    	select * from accessory WHERE 1=1
     	<!-- 引入sql片段 -->
     	<include refid="query_commodities_where"></include>
+    	<if test="fruitid!=null">
+    		and fruitid=#{fruitid,jdbcType=VARCHAR}
+    	</if>
     	<!-- 分页数据条件 -->
     	<if test="pageSize!=null and offset!=null">
     		limit #{pageSize,javaType=int,jdbcType=INTEGER} offset #{offset,javaType=int,jdbcType=INTEGER}
@@ -62,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="count" 
     		parameterType="map" 
     		resultType="int">  
-    	select count(*) from commodities where 1=1
+    	select count(*) from accessory where 1=1
     	<!-- 引入sql片段 -->
     	<include refid="query_commodities_where"></include>
     </select> 
@@ -71,46 +73,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 根据id查询数据 -->
     <select id="get" 
     		parameterType="string" 
-    		resultMap="commoditiesRM">  
-    	select * from commodities WHERE fruitid=#{id,jdbcType=VARCHAR};
+    		resultMap="accessoryRM">  
+    	select * from accessory WHERE accessoryid=#{id,jdbcType=VARCHAR};
     </select> 
 	
 	<!-- 插入一条数据,使用to_timestamp()时间转换函数-->
-	<insert id="insert" parameterType="com.fruitsalesplatform.entity.Commodities">
-		insert into commodities 
-		(fruitid,name,price,locality,createtime) 
+	<insert id="insert" parameterType="com.fruitsalesplatform.entity.Accessory">
+		insert into accessory 
+		(accessoryid,fruitid,name,price,createtime) 
 		values
 		(
+		 #{accessoryid,jdbcType=VARCHAR},
 		 #{fruitid,jdbcType=VARCHAR},
 		 #{name,jdbcType=VARCHAR},
 		 #{price,jdbcType=NUMERIC},
-		 #{locality,jdbcType=VARCHAR},
 		 to_timestamp(#{createtime},'YYYY-MM-DD HH24:MI:SS')
 		)
 	</insert>
 	
 	<!-- 数据更新,update -->
-	<update id="update" parameterType="com.fruitsalesplatform.entity.Commodities">
-		update commodities
+	<update id="update" parameterType="com.fruitsalesplatform.entity.Accessory">
+		update accessory
 		<set>
 			<if test="name!=null">name=#{name,jdbcType=NUMERIC},</if>
 			<if test="price!=null">price=#{price,jdbcType=VARCHAR},</if>
-			<if test="locality!=null">locality=#{locality,jdbcType=VARCHAR},</if>
 		</set>
-		where fruitid=#{fruitid,jdbcType=VARCHAR}
+		where accessoryid=#{accessoryid,jdbcType=VARCHAR}
 	</update>
 	
 	<!-- 根据id删除单条数据 -->
 	<delete id="deleteById" parameterType="string">
-		delete from commodities where fruitid=#{id}
+		delete from accessory where accessoryid=#{id}
 	</delete>
 	
 	<!-- 删除多条数据,一维字符串你数组的形式 -->
 	<delete id="delete" parameterType="string">
-		delete from commodities where fruitid in
+		delete from accessory where accessoryid in
 		<!-- 动态sql，open=""：指定开头字符串，close=""：指定结尾字符串，结果:("item1","item2")-->
-		<foreach collection="array" item="fruitid" open="(" separator="," close=")" >
-			#{fruitid}
+		<foreach collection="array" item="accessoryid" open="(" separator="," close=")" >
+			#{accessoryid}
 		</foreach>
 	</delete>
 	

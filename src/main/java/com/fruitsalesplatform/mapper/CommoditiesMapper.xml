@@ -12,12 +12,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="locality!=null">and locality like #{locality}</if>
 		<if test="startPrice!=null">
 			<![CDATA[
-				and startPrice>=#{startPrice}
+				and price>=#{startPrice,jdbcType=NUMERIC}
 			]]>
 		</if>
 		<if test="endPrice!=null">
 			<![CDATA[
-				and endPrice<=#{endPrice}
+				and price<=#{endPrice,jdbcType=NUMERIC}
 			]]>
 		</if>
 		<if test="createtime!=null">
@@ -51,10 +51,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     		resultMap="commoditiesRM">  
     	select * from commodities WHERE 1=1
     	<!-- 引入sql片段 -->
-    	<include refid="query_retailer_where"></include>
+    	<include refid="query_commodities_where"></include>
     	<!-- 分页数据条件 -->
     	<if test="pageSize!=null and offset!=null">
-    		limit #{pageSize,javaType=int,jdbcType=BIGINT} offset #{offset,javaType=int,jdbcType=BIGINT}
+    		limit #{pageSize,javaType=int,jdbcType=INTEGER} offset #{offset,javaType=int,jdbcType=INTEGER}
     	</if>
     </select> 
 	
@@ -64,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     		resultType="int">  
     	select count(*) from commodities where 1=1
     	<!-- 引入sql片段 -->
-    	<include refid="query_retailer_where"></include>
+    	<include refid="query_commodities_where"></include>
     </select> 
 	
 	
